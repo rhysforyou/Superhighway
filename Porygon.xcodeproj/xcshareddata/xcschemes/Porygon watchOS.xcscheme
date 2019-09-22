@@ -14,9 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "57CEF212233650E9003299F3"
+               BlueprintIdentifier = "57CEF25F23365B35003299F3"
                BuildableName = "Porygon.framework"
-               BlueprintName = "Porygon iOS"
+               BlueprintName = "Porygon watchOS"
+               ReferencedContainer = "container:Porygon.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "57CEF26A23365B7E003299F3"
+               BuildableName = "PorygonTests watchOS.xctest"
+               BlueprintName = "PorygonTests watchOS"
                ReferencedContainer = "container:Porygon.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +46,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "57CEF21B233650E9003299F3"
-               BuildableName = "PorygonTests.xctest"
-               BlueprintName = "PorygonTests"
+               BlueprintIdentifier = "57CEF26A23365B7E003299F3"
+               BuildableName = "PorygonTests watchOS.xctest"
+               BlueprintName = "PorygonTests watchOS"
                ReferencedContainer = "container:Porygon.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -60,9 +74,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "57CEF212233650E9003299F3"
+            BlueprintIdentifier = "57CEF25F23365B35003299F3"
             BuildableName = "Porygon.framework"
-            BlueprintName = "Porygon iOS"
+            BlueprintName = "Porygon watchOS"
             ReferencedContainer = "container:Porygon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

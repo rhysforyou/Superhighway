@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "57CEF212233650E9003299F3"
+               BlueprintIdentifier = "57CEF27A23365BE6003299F3"
                BuildableName = "Porygon.framework"
-               BlueprintName = "Porygon iOS"
+               BlueprintName = "Porygon tvOS"
                ReferencedContainer = "container:Porygon.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "57CEF21B233650E9003299F3"
-               BuildableName = "PorygonTests.xctest"
-               BlueprintName = "PorygonTests"
+               BlueprintIdentifier = "57CEF28523365C10003299F3"
+               BuildableName = "PorygonTests tvOS.xctest"
+               BlueprintName = "PorygonTests tvOS"
                ReferencedContainer = "container:Porygon.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -60,9 +60,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "57CEF212233650E9003299F3"
+            BlueprintIdentifier = "57CEF27A23365BE6003299F3"
             BuildableName = "Porygon.framework"
-            BlueprintName = "Porygon iOS"
+            BlueprintName = "Porygon tvOS"
             ReferencedContainer = "container:Porygon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
