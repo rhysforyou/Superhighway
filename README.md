@@ -16,14 +16,6 @@ func repository(author: String, name: String) -> Endpoint<Repository> {
 
 subscriber = repository(author: "rhysforyou", name: "Porygon")
     .publisher()
-    .sink(receiveCompletion: { completion in
-        switch completion {
-        case .failure(let error):
-            print("Encountered an error: \(error.localizedDescription)")
-        case .finished:
-            print("Finished")
-        }
-    }, receiveValue: { repository in
-        print("Received response: \(repository)")
-    })
+    .sink(receiveCompletion: { print("Completed: \($0)") },
+          receiveValue: { print("Value: \($0)") })
 ```
