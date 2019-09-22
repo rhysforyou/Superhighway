@@ -14,8 +14,15 @@ func repository(author: String, name: String) -> Endpoint<Repository> {
     return Endpoint(json: .get, url: URL(string: "https://api.github.com/repos/\(author)/\(name)")!)
 }
 
-subscriber = repository(author: "rhysforyou", name: "Porygon")
-    .publisher()
+let endpoint = repository(author: "rhysforyou", name: "Porygon")
+```
+
+This simply gives us the description of an endpoint, to actually load it, we need to subscribe to its publisher:
+
+```swift
+subscriber = endpoint.publisher()
     .sink(receiveCompletion: { print("Completed: \($0)") },
           receiveValue: { print("Value: \($0)") })
 ```
+
+If the subscriber is cancelled or deallocated before it finishes, any networking operations will be halted.
