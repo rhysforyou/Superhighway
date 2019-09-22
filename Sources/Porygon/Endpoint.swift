@@ -1,11 +1,3 @@
-//
-//  Endpoint.swift
-//  Porygon
-//
-//  Created by Rhys Powell on 21/9/19.
-//  Copyright © 2019 Rhys Powell. All rights reserved.
-//
-
 import Foundation
 import Combine
 
