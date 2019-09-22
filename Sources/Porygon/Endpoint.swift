@@ -31,20 +31,6 @@ public struct Endpoint<Response> {
     /// This is used to check the status code of a response.
     fileprivate let expectedStatusCode: (Int) -> Bool
 
-    /// Transforms the result
-    public func map<B>(_ f: @escaping (Response) -> B) -> Endpoint<B> {
-        return Endpoint<B>(request: request, expectedStatusCode: expectedStatusCode, parse: { value, response in
-            self.parse(value, response).map(f)
-        })
-    }
-
-    /// Transforms the result
-    public func compactMap<B>(_ transform: @escaping (Response) -> Result<B, Error>) -> Endpoint<B> {
-        return Endpoint<B>(request: request, expectedStatusCode: expectedStatusCode, parse: { data, response in
-            self.parse(data, response).flatMap(transform)
-        })
-    }
-
     /// Create a new Endpoint.
     ///
     /// - Parameters:
@@ -205,43 +191,10 @@ public struct WrongStatusCodeError: Error {
     }
 }
 
-extension URLSession {
-    @discardableResult
-    /// Loads an endpoint by creating (and directly resuming) a data task.
-    ///
-    /// - Parameters:
-    ///   - e: The endpoint.
-    ///   - onComplete: The completion handler.
-    /// - Returns: The data task.
-    public func load<Response>(_ e: Endpoint<Response>, onComplete: @escaping (Result<Response, Error>) -> ()) -> URLSessionDataTask {
-        let r = e.request
-        let task = dataTask(with: r, completionHandler: { data, resp, err in
-            if let err = err {
-                onComplete(.failure(err))
-                return
-            }
-
-            guard let h = resp as? HTTPURLResponse else {
-                onComplete(.failure(UnknownError()))
-                return
-            }
-
-            guard e.expectedStatusCode(h.statusCode) else {
-                onComplete(.failure(WrongStatusCodeError(statusCode: h.statusCode, response: h)))
-                return
-            }
-
-            onComplete(e.parse(data,resp))
-        })
-        task.resume()
-        return task
-    }
-}
-
 // MARK: - Combine Support
 
 extension Endpoint {
-    /// A publisher that delivers the results of fetching an endpoint.
+    /// A publisher that delivers the results of loading an endpoint.
     public final class Publisher: Combine.Publisher {
         public typealias Output = Response
         public typealias Failure = Error
