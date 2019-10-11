@@ -22,7 +22,8 @@ class HTTPStubURLProtocol: URLProtocol {
     }
 
     override func startLoading() {
-        guard let client = client, let url = request.url, let stub = HTTPStubURLProtocol.urls[url] else {
+        guard let client = client, let url = request.url, let stub = HTTPStubURLProtocol.urls[url]
+        else {
             fatalError()
         }
 

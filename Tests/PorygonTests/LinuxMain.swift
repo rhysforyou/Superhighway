@@ -1,6 +1,5 @@
-import XCTest
-
 import PorygonTests
+import XCTest
 
 var tests = [XCTestCaseEntry]()
 tests += PorygonTests.allTests()
