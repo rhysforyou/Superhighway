@@ -291,9 +291,9 @@ public struct WrongStatusCodeError: Error {
 
 // MARK: - Combine Support
 
-extension Endpoint {
+extension URLSession {
     /// A publisher that delivers the results of loading an endpoint.
-    public final class Publisher: Combine.Publisher {
+    public final class EndpointPublisher<Response>: Combine.Publisher {
         public typealias Output = Response
         public typealias Failure = Error
 
@@ -307,10 +307,7 @@ extension Endpoint {
                     }
 
                     guard endpoint.expectedStatusCode(httpResponse.statusCode) else {
-                        throw WrongStatusCodeError(
-                            statusCode: httpResponse.statusCode,
-                            response: httpResponse
-                        )
+                        throw WrongStatusCodeError(statusCode: httpResponse.statusCode, response: httpResponse)
                     }
 
                     return try endpoint.parse(data, httpResponse).get()
@@ -324,7 +321,40 @@ extension Endpoint {
         }
     }
 
-    public func publisher(session: URLSession = .shared) -> Publisher {
-        return Publisher(endpoint: self, session: session)
+    public func endpointPublisher<Response>(_ endpoint: Endpoint<Response>) -> EndpointPublisher<Response> {
+        return EndpointPublisher(endpoint: endpoint, session: self)
+    }
+}
+
+extension URLSession {
+    @discardableResult
+    /// Loads an endpoint by creating (and directly resuming) a data task.
+    ///
+    /// - Parameters:
+    ///   - endpoint: The endpoint.
+    ///   - onComplete: The completion handler.
+    /// - Returns: The data task.
+    public func endpointTask<A>(_ endpoint: Endpoint<A>, onComplete: @escaping (Result<A, Error>) -> ()) -> URLSessionDataTask {
+        let r = endpoint.request
+        let task = dataTask(with: r, completionHandler: { data, response, error in
+            if let error = error {
+                onComplete(.failure(error))
+                return
+            }
+
+            guard let urlResponse = response as? HTTPURLResponse else {
+                onComplete(.failure(UnknownError()))
+                return
+            }
+
+            guard endpoint.expectedStatusCode(urlResponse.statusCode) else {
+                onComplete(.failure(WrongStatusCodeError(statusCode: urlResponse.statusCode, response: urlResponse)))
+                return
+            }
+
+            onComplete(endpoint.parse(data,response))
+        })
+        task.resume()
+        return task
     }
 }

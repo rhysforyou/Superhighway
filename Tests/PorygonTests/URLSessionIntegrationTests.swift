@@ -32,7 +32,7 @@ final class URLSessionIntegrationTests: XCTestCase {
         let endpoint = Endpoint<[Person]>(json: .get, url: url)
         let expectation = self.expectation(description: "Stubbed network call")
 
-        subscriber = endpoint.publisher().sink(
+        subscriber = URLSession.shared.endpointPublisher(endpoint).sink(
             receiveCompletion: { completion in
                 switch completion {
                 case .failure(let error):

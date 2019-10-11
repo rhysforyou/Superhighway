@@ -20,7 +20,7 @@ let endpoint = repository(author: "rhysforyou", name: "Porygon")
 This simply gives us the description of an endpoint, to actually load it, we need to subscribe to its publisher:
 
 ```swift
-subscriber = endpoint.publisher()
+subscriber = URLSesion.shared.endpointPublisher(endpoint)
     .sink(receiveCompletion: { print("Completed: \($0)") },
           receiveValue: { print("Value: \($0)") })
 ```
