@@ -1,5 +1,9 @@
 # Porygon
 
+![Swift Package Manager compatible](https://img.shields.io/badge/SPM-compatible-green?style=flat)
+![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-green?style=flat)
+![Supports macOS, iOS, tvOS and watchOS](https://img.shields.io/badge/platform-macOS%20|%20iOS%20|%20tvOS%20|%20watchOS-blue?style=flat)
+
 Porygon is a networking library heavily inspired by [tiny-networking](https://github.com/objcio/tiny-networking), but designed primarily for use with Combine. It defines an `Endpoint` type which encapsulates the relationship between a `URLRequest` and the `Decodable` entity it represents.
 
 ## A Simple Example
