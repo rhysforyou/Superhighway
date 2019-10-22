@@ -293,7 +293,6 @@ public struct WrongStatusCodeError: Error {
 }
 
 extension URLSession {
-    @discardableResult
     /// Loads an endpoint by creating (and directly resuming) a data task.
     ///
     /// - Parameters:

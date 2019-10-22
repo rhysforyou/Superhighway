@@ -1,6 +1,9 @@
+# This Docker Compose file is used to test the project on Linux, e.g.
+#
+# $ docker-compose run linux-tests
 version: "3.7"
 services:
-  tests:
+  linux-tests:
     image: "swift:5.1.1"
     command: swift test
     volumes:
