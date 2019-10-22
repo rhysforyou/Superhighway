@@ -1,7 +1,7 @@
 os: osx
 language: swift
 osx_image:
-  - xcode11.0
+  - xcode11
   - xcode11.1
 install:
   - swift package resolve
