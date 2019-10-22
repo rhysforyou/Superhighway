@@ -1,0 +1,13 @@
+steps:
+  - label: ":swift: Test on macOS"
+    command: swift test
+    agents:
+      os: macOS
+      osVersion: "10.15"
+  - label: ":swift: Test on Linux"
+    command: swift test
+    agents:
+      docker: "*"
+    plugins:
+      - docker#v3.3.0:
+          image: "swift:5.1.1"

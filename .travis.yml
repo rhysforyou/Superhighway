@@ -1,8 +1,0 @@
-os: osx
-language: swift
-osx_image:
-  - xcode11
-  - xcode11.1
-install: swift package resolve
-before_script: "swift build --fetch"
-script: swift test
