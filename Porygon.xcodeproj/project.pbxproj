@@ -17,7 +17,7 @@
             "en"
          );
          mainGroup = "OBJ_5";
-         productRefGroup = "OBJ_17";
+         productRefGroup = "OBJ_18";
          projectDirPath = ".";
          targets = (
             "Porygon::Porygon",
@@ -42,7 +42,8 @@
             "OBJ_13",
             "OBJ_14",
             "OBJ_15",
-            "OBJ_16"
+            "OBJ_16",
+            "OBJ_17"
          );
          name = "PorygonTests";
          path = "Tests/PorygonTests";
@@ -50,30 +51,35 @@
       };
       "OBJ_12" = {
          isa = "PBXFileReference";
-         path = "EndpointTests.swift";
+         path = "CombineIntegrationTests.swift";
          sourceTree = "<group>";
       };
       "OBJ_13" = {
          isa = "PBXFileReference";
-         path = "HTTPStubURLProtocol.swift";
+         path = "EndpointTests.swift";
          sourceTree = "<group>";
       };
       "OBJ_14" = {
          isa = "PBXFileReference";
-         path = "TestFixtures.swift";
+         path = "HTTPStubURLProtocol.swift";
          sourceTree = "<group>";
       };
       "OBJ_15" = {
          isa = "PBXFileReference";
-         path = "URLSessionIntegrationTests.swift";
+         path = "TestFixtures.swift";
          sourceTree = "<group>";
       };
       "OBJ_16" = {
          isa = "PBXFileReference";
-         path = "XCTestManifests.swift";
+         path = "URLSessionIntegrationTests.swift";
          sourceTree = "<group>";
       };
       "OBJ_17" = {
+         isa = "PBXFileReference";
+         path = "XCTestManifests.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_18" = {
          isa = "PBXGroup";
          children = (
             "Porygon::Porygon::Product",
@@ -92,26 +98,41 @@
          defaultConfigurationIsVisible = "0";
          defaultConfigurationName = "Release";
       };
-      "OBJ_20" = {
+      "OBJ_21" = {
+         isa = "PBXFileReference";
+         path = "Carthage";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_22" = {
+         isa = "PBXFileReference";
+         path = "LICENSE";
+         sourceTree = "<group>";
+      };
+      "OBJ_23" = {
+         isa = "PBXFileReference";
+         path = "Dockerfile";
+         sourceTree = "<group>";
+      };
+      "OBJ_24" = {
          isa = "PBXFileReference";
          path = "README.md";
          sourceTree = "<group>";
       };
-      "OBJ_21" = {
+      "OBJ_25" = {
          isa = "PBXFileReference";
          path = "swift-format.json";
          sourceTree = "<group>";
       };
-      "OBJ_23" = {
+      "OBJ_27" = {
          isa = "XCConfigurationList";
          buildConfigurations = (
-            "OBJ_24",
-            "OBJ_25"
+            "OBJ_28",
+            "OBJ_29"
          );
          defaultConfigurationIsVisible = "0";
          defaultConfigurationName = "Release";
       };
-      "OBJ_24" = {
+      "OBJ_28" = {
          isa = "XCBuildConfiguration";
          buildSettings = {
             ENABLE_TESTABILITY = "YES";
@@ -152,7 +173,7 @@
          };
          name = "Debug";
       };
-      "OBJ_25" = {
+      "OBJ_29" = {
          isa = "XCBuildConfiguration";
          buildSettings = {
             ENABLE_TESTABILITY = "YES";
@@ -192,21 +213,6 @@
             WATCHOS_DEPLOYMENT_TARGET = "6.0";
          };
          name = "Release";
-      };
-      "OBJ_26" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_27"
-         );
-      };
-      "OBJ_27" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_9";
-      };
-      "OBJ_28" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-         );
       };
       "OBJ_3" = {
          isa = "XCBuildConfiguration";
@@ -251,88 +257,78 @@
          name = "Debug";
       };
       "OBJ_30" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_31",
-            "OBJ_32"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_31" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "5",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
-               "-target",
-               "x86_64-apple-macosx10.10",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
-               "-package-description-version",
-               "5.1"
-            );
-            SWIFT_VERSION = "5.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_32" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "5",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
-               "-target",
-               "x86_64-apple-macosx10.10",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
-               "-package-description-version",
-               "5.1"
-            );
-            SWIFT_VERSION = "5.0";
-         };
-         name = "Release";
-      };
-      "OBJ_33" = {
          isa = "PBXSourcesBuildPhase";
          files = (
-            "OBJ_34"
+            "OBJ_31"
+         );
+      };
+      "OBJ_31" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_9";
+      };
+      "OBJ_32" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
          );
       };
       "OBJ_34" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_6";
-      };
-      "OBJ_36" = {
          isa = "XCConfigurationList";
          buildConfigurations = (
-            "OBJ_37",
-            "OBJ_38"
+            "OBJ_35",
+            "OBJ_36"
          );
          defaultConfigurationIsVisible = "0";
          defaultConfigurationName = "Release";
       };
-      "OBJ_37" = {
+      "OBJ_35" = {
          isa = "XCBuildConfiguration";
          buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "5",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
+               "-target",
+               "x86_64-apple-macosx10.10",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
+               "-package-description-version",
+               "5.1"
+            );
+            SWIFT_VERSION = "5.0";
          };
          name = "Debug";
       };
-      "OBJ_38" = {
+      "OBJ_36" = {
          isa = "XCBuildConfiguration";
          buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "5",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
+               "-target",
+               "x86_64-apple-macosx10.10",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
+               "-package-description-version",
+               "5.1"
+            );
+            SWIFT_VERSION = "5.0";
          };
          name = "Release";
       };
-      "OBJ_39" = {
-         isa = "PBXTargetDependency";
-         target = "Porygon::PorygonTests";
+      "OBJ_37" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_38"
+         );
+      };
+      "OBJ_38" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_6";
       };
       "OBJ_4" = {
          isa = "XCBuildConfiguration";
@@ -372,16 +368,41 @@
          };
          name = "Release";
       };
-      "OBJ_41" = {
+      "OBJ_40" = {
          isa = "XCConfigurationList";
          buildConfigurations = (
-            "OBJ_42",
-            "OBJ_43"
+            "OBJ_41",
+            "OBJ_42"
          );
          defaultConfigurationIsVisible = "0";
          defaultConfigurationName = "Release";
       };
+      "OBJ_41" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+         };
+         name = "Debug";
+      };
       "OBJ_42" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+         };
+         name = "Release";
+      };
+      "OBJ_43" = {
+         isa = "PBXTargetDependency";
+         target = "Porygon::PorygonTests";
+      };
+      "OBJ_45" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_46",
+            "OBJ_47"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_46" = {
          isa = "XCBuildConfiguration";
          buildSettings = {
             CLANG_ENABLE_MODULES = "YES";
@@ -420,7 +441,7 @@
          };
          name = "Debug";
       };
-      "OBJ_43" = {
+      "OBJ_47" = {
          isa = "XCBuildConfiguration";
          buildSettings = {
             CLANG_ENABLE_MODULES = "YES";
@@ -459,35 +480,20 @@
          };
          name = "Release";
       };
-      "OBJ_44" = {
+      "OBJ_48" = {
          isa = "PBXSourcesBuildPhase";
          files = (
-            "OBJ_45",
-            "OBJ_46",
-            "OBJ_47",
-            "OBJ_48",
-            "OBJ_49"
+            "OBJ_49",
+            "OBJ_50",
+            "OBJ_51",
+            "OBJ_52",
+            "OBJ_53",
+            "OBJ_54"
          );
-      };
-      "OBJ_45" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_12";
-      };
-      "OBJ_46" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_13";
-      };
-      "OBJ_47" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_14";
-      };
-      "OBJ_48" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_15";
       };
       "OBJ_49" = {
          isa = "PBXBuildFile";
-         fileRef = "OBJ_16";
+         fileRef = "OBJ_12";
       };
       "OBJ_5" = {
          isa = "PBXGroup";
@@ -495,24 +501,47 @@
             "OBJ_6",
             "OBJ_7",
             "OBJ_10",
-            "OBJ_17",
-            "OBJ_20",
-            "OBJ_21"
+            "OBJ_18",
+            "OBJ_21",
+            "OBJ_22",
+            "OBJ_23",
+            "OBJ_24",
+            "OBJ_25"
          );
          path = "";
          sourceTree = "<group>";
       };
       "OBJ_50" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-            "OBJ_51"
-         );
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_13";
       };
       "OBJ_51" = {
          isa = "PBXBuildFile";
-         fileRef = "Porygon::Porygon::Product";
+         fileRef = "OBJ_14";
       };
       "OBJ_52" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_15";
+      };
+      "OBJ_53" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_16";
+      };
+      "OBJ_54" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_17";
+      };
+      "OBJ_55" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+            "OBJ_56"
+         );
+      };
+      "OBJ_56" = {
+         isa = "PBXBuildFile";
+         fileRef = "Porygon::Porygon::Product";
+      };
+      "OBJ_57" = {
          isa = "PBXTargetDependency";
          target = "Porygon::Porygon";
       };
@@ -547,10 +576,10 @@
       };
       "Porygon::Porygon" = {
          isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_23";
+         buildConfigurationList = "OBJ_27";
          buildPhases = (
-            "OBJ_26",
-            "OBJ_28"
+            "OBJ_30",
+            "OBJ_32"
          );
          dependencies = (
          );
@@ -566,24 +595,24 @@
       };
       "Porygon::PorygonPackageTests::ProductTarget" = {
          isa = "PBXAggregateTarget";
-         buildConfigurationList = "OBJ_36";
+         buildConfigurationList = "OBJ_40";
          buildPhases = (
          );
          dependencies = (
-            "OBJ_39"
+            "OBJ_43"
          );
          name = "PorygonPackageTests";
          productName = "PorygonPackageTests";
       };
       "Porygon::PorygonTests" = {
          isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_41";
+         buildConfigurationList = "OBJ_45";
          buildPhases = (
-            "OBJ_44",
-            "OBJ_50"
+            "OBJ_48",
+            "OBJ_55"
          );
          dependencies = (
-            "OBJ_52"
+            "OBJ_57"
          );
          name = "PorygonTests";
          productName = "PorygonTests";
@@ -597,9 +626,9 @@
       };
       "Porygon::SwiftPMPackageDescription" = {
          isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_30";
+         buildConfigurationList = "OBJ_34";
          buildPhases = (
-            "OBJ_33"
+            "OBJ_37"
          );
          dependencies = (
          );

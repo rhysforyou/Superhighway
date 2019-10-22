@@ -1,3 +1,4 @@
+#if os(macOS)
 import Foundation
 import XCTest
 
@@ -7,7 +8,7 @@ import FoundationNetworking
 
 @testable import Porygon
 
-final class URLSessionIntegrationTests: XCTestCase {
+final class CombineIntegrationTasks: XCTestCase {
     override func setUp() {
         super.setUp()
         guard URLProtocol.registerClass(HTTPStubURLProtocol.self) else {
@@ -19,12 +20,12 @@ final class URLSessionIntegrationTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
         URLProtocol.unregisterClass(HTTPStubURLProtocol.self)
-        task = nil
+        subscriber = nil
     }
 
-    var task: URLSessionDataTask?
+    private var subscriber: Any?
 
-    func testDataTaskRequest() throws {
+    func testEndpointPublisher() throws {
         let url = URL(string: "http://www.example.com/example.json")!
 
         HTTPStubURLProtocol.urls[url] = StubbedResponse(
@@ -40,22 +41,21 @@ final class URLSessionIntegrationTests: XCTestCase {
         let endpoint = Endpoint<[Person]>(json: .get, url: url)
         let expectation = self.expectation(description: "Stubbed network call")
 
-        task = URLSession.shared.endpointTask(endpoint) { result in
-            switch result {
-            case .failure(let error):
-                XCTFail(String(describing: error))
-            case .success(let people):
-                XCTAssertEqual([Person(name: "Alice"), Person(name: "Bob")], people)
-                expectation.fulfill()
+        subscriber = URLSession.shared.endpointPublisher(endpoint).sink(
+            receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    XCTFail(String(describing: error))
+                case .finished:
+                    expectation.fulfill()
+                }
+            },
+            receiveValue: { payload in
+                XCTAssertEqual([Person(name: "Alice"), Person(name: "Bob")], payload)
             }
-        }
-
-        task!.resume()
+        )
 
         wait(for: [expectation], timeout: 1)
     }
-
-    static var allTests = [
-        ("testDataTaskRequest", testDataTaskRequest),
-    ]
 }
+#endif

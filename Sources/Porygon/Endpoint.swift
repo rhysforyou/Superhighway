@@ -1,5 +1,8 @@
-import Combine
 import Foundation
+
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /// Content type used in `Accept` and `Content-Type` HTTP headers
 public enum ContentType: String {
@@ -289,7 +292,42 @@ public struct WrongStatusCodeError: Error {
     }
 }
 
+extension URLSession {
+    @discardableResult
+    /// Loads an endpoint by creating (and directly resuming) a data task.
+    ///
+    /// - Parameters:
+    ///   - endpoint: The endpoint.
+    ///   - onComplete: The completion handler.
+    /// - Returns: The data task.
+    public func endpointTask<A>(_ endpoint: Endpoint<A>, onComplete: @escaping (Result<A, Error>) -> ()) -> URLSessionDataTask {
+        let r = endpoint.request
+        let task = dataTask(with: r, completionHandler: { data, response, error in
+            if let error = error {
+                onComplete(.failure(error))
+                return
+            }
+
+            guard let urlResponse = response as? HTTPURLResponse else {
+                onComplete(.failure(UnknownError()))
+                return
+            }
+
+            guard endpoint.expectedStatusCode(urlResponse.statusCode) else {
+                onComplete(.failure(WrongStatusCodeError(statusCode: urlResponse.statusCode, response: urlResponse)))
+                return
+            }
+
+            onComplete(endpoint.parse(data,response))
+        })
+        return task
+    }
+}
+
 // MARK: - Combine Support
+
+#if canImport(Combine)
+import Combine
 
 extension URLSession {
     /// A publisher that delivers the results of loading an endpoint.
@@ -325,36 +363,4 @@ extension URLSession {
         return EndpointPublisher(endpoint: endpoint, session: self)
     }
 }
-
-extension URLSession {
-    @discardableResult
-    /// Loads an endpoint by creating (and directly resuming) a data task.
-    ///
-    /// - Parameters:
-    ///   - endpoint: The endpoint.
-    ///   - onComplete: The completion handler.
-    /// - Returns: The data task.
-    public func endpointTask<A>(_ endpoint: Endpoint<A>, onComplete: @escaping (Result<A, Error>) -> ()) -> URLSessionDataTask {
-        let r = endpoint.request
-        let task = dataTask(with: r, completionHandler: { data, response, error in
-            if let error = error {
-                onComplete(.failure(error))
-                return
-            }
-
-            guard let urlResponse = response as? HTTPURLResponse else {
-                onComplete(.failure(UnknownError()))
-                return
-            }
-
-            guard endpoint.expectedStatusCode(urlResponse.statusCode) else {
-                onComplete(.failure(WrongStatusCodeError(statusCode: urlResponse.statusCode, response: urlResponse)))
-                return
-            }
-
-            onComplete(endpoint.parse(data,response))
-        })
-        task.resume()
-        return task
-    }
-}
+#endif
