@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  tests:
+    image: "swift:5.1.1"
+    command: swift test
+    volumes:
+      - ".:/app"
+    working_dir: /app
