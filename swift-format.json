@@ -5,8 +5,9 @@
   "indentation": {
     "spaces": 4
   },
+  "indentConditionalCompilationBlocks": false,
   "lineBreakBeforeControlFlowKeywords": false,
-  "lineBreakBeforeEachArgument": true,
+  "lineBreakBeforeEachArgument": false,
   "lineLength": 100,
   "maximumBlankLines": 1,
   "respectsExistingLineBreaks": true,
@@ -14,7 +15,6 @@
     "AllPublicDeclarationsHaveDocumentation": true,
     "AlwaysUseLowerCamelCase": true,
     "AmbiguousTrailingClosureOverload": true,
-    "AvoidInitializersForLiterals": true,
     "BeginDocumentationCommentWithOneLineSummary": true,
     "BlankLineBetweenMembers": true,
     "CaseIndentLevelEqualsSwitch": true,
@@ -30,7 +30,6 @@
     "NoAccessLevelOnExtensionDeclaration": true,
     "NoBlockComments": true,
     "NoCasesWithOnlyFallthrough": true,
-    "NoEmptyAssociatedValues": true,
     "NoEmptyTrailingClosureParentheses": true,
     "NoLabelsInCasePatterns": true,
     "NoLeadingUnderscores": true,
@@ -43,10 +42,8 @@
     "ReturnVoidInsteadOfEmptyTuple": true,
     "UseEnumForNamespacing": true,
     "UseLetInEveryBoundCaseVariable": true,
-    "UseOnlyUTF8": true,
     "UseShorthandTypeNames": true,
     "UseSingleLinePropertyGetter": true,
-    "UseSpecialEscapeSequences": true,
     "UseSynthesizedInitializer": true,
     "UseTripleSlashForDocumentationComments": true,
     "ValidateDocumentationComments": true
