@@ -3,7 +3,8 @@ steps:
     command: swift test
     agents:
       os: macOS
-      os-version: "10.15"
+      osVersion: "10.15"
+      xcodeVersion: "11.3.1"
   - label: ":swift: Test on Linux"
     command: swift test
     agents:
