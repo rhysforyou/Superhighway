@@ -57,5 +57,6 @@ final class EndpointTests: XCTestCase {
         ("testUrlWithoutParams", testUrlWithoutParams),
         ("testUrlWithParams", testUrlWithParams),
         ("testUrlAdditionalParams", testUrlAdditionalParams),
+        ("testResponseMapping", testResponseMapping),
     ]
 }
