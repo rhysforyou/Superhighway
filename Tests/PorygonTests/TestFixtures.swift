@@ -5,12 +5,12 @@ struct Person: Codable, Equatable {
 }
 
 let exampleJSON = """
-[
-    {
-        "name": "Alice"
-    },
-    {
-        "name": "Bob"
-    }
-]
-"""
+    [
+        {
+            "name": "Alice"
+        },
+        {
+            "name": "Bob"
+        }
+    ]
+    """

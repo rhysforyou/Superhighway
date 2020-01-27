@@ -1,11 +1,11 @@
 import Foundation
 import XCTest
 
+@testable import Porygon
+
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
-
-@testable import Porygon
 
 final class URLSessionIntegrationTests: XCTestCase {
     override func setUp() {

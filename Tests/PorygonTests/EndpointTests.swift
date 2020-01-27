@@ -1,11 +1,11 @@
 import Foundation
 import XCTest
 
+@testable import Porygon
+
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
-
-@testable import Porygon
 
 final class EndpointTests: XCTestCase {
     func testUrlWithoutParams() {
@@ -39,15 +39,15 @@ final class EndpointTests: XCTestCase {
         }
 
         let jsonData = """
-        {
-            "firstName": "John",
-            "lastName": "Appleseed"
-        }
-        """.data(using: .utf8)
+            {
+                "firstName": "John",
+                "lastName": "Appleseed"
+            }
+            """.data(using: .utf8)
 
         let url = URL(string: "http://www.example.com/example.json?abc=def")!
         let endpoint = Endpoint<Person>(json: .get, url: url, query: ["foo": "bar bar"])
-        let mappedEndpoint = endpoint.map { "\($0.firstName) \($0.lastName)"}
+        let mappedEndpoint = endpoint.map { "\($0.firstName) \($0.lastName)" }
         XCTAssertEqual(
             try? mappedEndpoint.parse(jsonData, nil).get(),
             .some("John Appleseed"))
