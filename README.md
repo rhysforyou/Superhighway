@@ -1,6 +1,6 @@
 # Porygon
 
-[![Buildkite Pipeline](https://img.shields.io/buildkite/574d99faa246933c4b9f2ecebc6e5bdebc9cfd78b3aa4bf5a3?style=flat-square)](https://buildkite.com/rhys-powell/porygon)
+[![Buildkite Pipeline](https://img.shields.io/buildkite/2adc4e0e80c6ab994eb2efe654e6a120eb442fd51b276b2adb?style=flat-square)](https://buildkite.com/rhys-powell/porygon)
 ![Swift Package Manager compatible](https://img.shields.io/badge/SPM-compatible-blue?style=flat-square)
 ![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-blue?style=flat-square)
 ![Supports macOS, iOS, tvOS, watchOS, and Linux](https://img.shields.io/badge/platform-macOS%20|%20iOS%20|%20tvOS%20|%20watchOS%20|%20Linux-blue?style=flat-square)
