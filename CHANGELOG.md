@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.0] - 2020-01-27
+
 ### Added
 
 - Add support for Linux
@@ -17,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The `URLSessionDataTask` provided by `URLSession`'s `endpointTask` method is is no longer started automatically
 - The return value of `endpointTask` is no longer marked as discardable
 
-## [v0.1.0] - 2015-10-06
+## [v0.1.0] - 2019-10-11
 
 Initial release of the library
 

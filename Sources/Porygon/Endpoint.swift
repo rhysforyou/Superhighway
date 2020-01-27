@@ -342,7 +342,7 @@ extension URLSession {
 
 // MARK: - Transforming Responses
 
-extension Endpoint {
+public extension Endpoint {
     /// Create a new endpoint which maps the source endpoint's response after parsing it
     ///
     /// - Parameter transform: A closure that transforms a successfully parsed response
