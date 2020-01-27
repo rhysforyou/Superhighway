@@ -14,12 +14,16 @@ public enum ContentType: String {
 public enum HTTPMethod: String {
     /// `GET`
     case get = "GET"
+
     /// `POST`
     case post = "POST"
+
     /// `PUT`
     case put = "PUT"
+
     /// `PATCH`
     case patch = "PATCH"
+
     /// `DELETE`
     case delete = "DELETE"
 }
@@ -35,7 +39,7 @@ public struct Endpoint<Response> {
     let request: URLRequest
 
     /// This is used to (try to) parse a response into an `A`.
-    fileprivate let parse: (Data?, URLResponse?) -> Result<Response, Error>
+    let parse: (Data?, URLResponse?) -> Result<Response, Error>
 
     /// This is used to check the status code of a response.
     fileprivate let expectedStatusCode: (Int) -> Bool
@@ -121,8 +125,8 @@ extension Endpoint: CustomStringConvertible {
         return [
             request.httpMethod ?? "GET",
             request.url?.absoluteString ?? "<no url>",
-            String(data: data, encoding: .utf8)
-        ].compactMap({$0}).joined(separator: " ")
+            String(data: data, encoding: .utf8),
+        ].compactMap({ $0 }).joined(separator: " ")
     }
 }
 
@@ -299,27 +303,66 @@ extension URLSession {
     ///   - endpoint: The endpoint.
     ///   - onComplete: The completion handler.
     /// - Returns: The data task.
-    public func endpointTask<A>(_ endpoint: Endpoint<A>, onComplete: @escaping (Result<A, Error>) -> ()) -> URLSessionDataTask {
+    public func endpointTask<A>(
+        _ endpoint: Endpoint<A>,
+        onComplete: @escaping (Result<A, Error>) -> Void
+    ) -> URLSessionDataTask {
         let r = endpoint.request
-        let task = dataTask(with: r, completionHandler: { data, response, error in
-            if let error = error {
-                onComplete(.failure(error))
-                return
-            }
+        let task = dataTask(
+            with: r,
+            completionHandler: { data, response, error in
+                if let error = error {
+                    onComplete(.failure(error))
+                    return
+                }
 
-            guard let urlResponse = response as? HTTPURLResponse else {
-                onComplete(.failure(UnknownError()))
-                return
-            }
+                guard let urlResponse = response as? HTTPURLResponse else {
+                    onComplete(.failure(UnknownError()))
+                    return
+                }
 
-            guard endpoint.expectedStatusCode(urlResponse.statusCode) else {
-                onComplete(.failure(WrongStatusCodeError(statusCode: urlResponse.statusCode, response: urlResponse)))
-                return
-            }
+                guard endpoint.expectedStatusCode(urlResponse.statusCode) else {
+                    onComplete(
+                        .failure(
+                            WrongStatusCodeError(
+                                statusCode: urlResponse.statusCode,
+                                response: urlResponse
+                            )
+                        )
+                    )
+                    return
+                }
 
-            onComplete(endpoint.parse(data,response))
-        })
+                onComplete(endpoint.parse(data, response))
+            }
+        )
         return task
+    }
+}
+
+// MARK: - Transforming Responses
+
+extension Endpoint {
+    /// Create a new endpoint which maps the source endpoint's response after parsing it
+    ///
+    /// - Parameter transform: A closure that transforms a successfully parsed response
+    func map<T>(_ transform: @escaping (Response) -> T) -> Endpoint<T> {
+        return Endpoint<T>(request: request, expectedStatusCode: expectedStatusCode) {
+            [parse] (data, response) -> Result<T, Error> in
+            let initialResult = parse(data, response)
+            return initialResult.map(transform)
+        }
+    }
+
+    /// Create a new endpoint which flat maps the source endpoint's response after parsing it
+    ///
+    /// - Parameter transform: A closure that transforms a successfully parsed response
+    func flatMap<T>(_ transform: @escaping (Response) -> Result<T, Error>) -> Endpoint<T> {
+        return Endpoint<T>(request: request, expectedStatusCode: expectedStatusCode) {
+            [parse] (data, response) -> Result<T, Error> in
+            let initialResult = parse(data, response)
+            return initialResult.flatMap(transform)
+        }
     }
 }
 
@@ -344,7 +387,10 @@ extension URLSession {
                     }
 
                     guard endpoint.expectedStatusCode(httpResponse.statusCode) else {
-                        throw WrongStatusCodeError(statusCode: httpResponse.statusCode, response: httpResponse)
+                        throw WrongStatusCodeError(
+                            statusCode: httpResponse.statusCode,
+                            response: httpResponse
+                        )
                     }
 
                     return try endpoint.parse(data, httpResponse).get()
@@ -358,7 +404,9 @@ extension URLSession {
         }
     }
 
-    public func endpointPublisher<Response>(_ endpoint: Endpoint<Response>) -> EndpointPublisher<Response> {
+    public func endpointPublisher<Response>(_ endpoint: Endpoint<Response>)
+        -> EndpointPublisher<Response>
+    {
         return EndpointPublisher(endpoint: endpoint, session: self)
     }
 }
