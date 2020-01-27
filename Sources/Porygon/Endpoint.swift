@@ -39,7 +39,7 @@ public struct Endpoint<Response> {
     let request: URLRequest
 
     /// This is used to (try to) parse a response into an `A`.
-    fileprivate let parse: (Data?, URLResponse?) -> Result<Response, Error>
+    let parse: (Data?, URLResponse?) -> Result<Response, Error>
 
     /// This is used to check the status code of a response.
     fileprivate let expectedStatusCode: (Int) -> Bool
@@ -337,6 +337,32 @@ extension URLSession {
             }
         )
         return task
+    }
+}
+
+// MARK: - Transforming Responses
+
+extension Endpoint {
+    /// Create a new endpoint which maps the source endpoint's response after parsing it
+    ///
+    /// - Parameter transform: A closure that transforms a successfully parsed response
+    func map<T>(_ transform: @escaping (Response) -> T) -> Endpoint<T> {
+        return Endpoint<T>(request: request, expectedStatusCode: expectedStatusCode) {
+            [parse] (data, response) -> Result<T, Error> in
+            let initialResult = parse(data, response)
+            return initialResult.map(transform)
+        }
+    }
+
+    /// Create a new endpoint which flat maps the source endpoint's response after parsing it
+    ///
+    /// - Parameter transform: A closure that transforms a successfully parsed response
+    func flatMap<T>(_ transform: @escaping (Response) -> Result<T, Error>) -> Endpoint<T> {
+        return Endpoint<T>(request: request, expectedStatusCode: expectedStatusCode) {
+            [parse] (data, response) -> Result<T, Error> in
+            let initialResult = parse(data, response)
+            return initialResult.flatMap(transform)
+        }
     }
 }
 

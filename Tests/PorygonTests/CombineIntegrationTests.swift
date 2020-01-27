@@ -1,6 +1,7 @@
-#if os(macOS)
+#if os(macOS) && canImport(Combine)
 import Foundation
 import XCTest
+import Combine
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
