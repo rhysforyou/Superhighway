@@ -1,6 +1,6 @@
 # Porygon
 
-![Travis Build Status](https://img.shields.io/travis/rhysforyou/Porygon?style=flat-square)
+[![Travis Build Status](https://img.shields.io/travis/rhysforyou/Porygon?style=flat-square)](https://travis-ci.org/github/rhysforyou/Porygon/builds)
 ![Swift Package Manager compatible](https://img.shields.io/badge/SPM-compatible-blue?style=flat-square)
 ![Supports macOS, iOS, tvOS, watchOS, and Linux](https://img.shields.io/badge/platform-macOS%20|%20iOS%20|%20tvOS%20|%20watchOS%20|%20Linux-blue?style=flat-square)
 
