@@ -1,0 +1,4 @@
+language: swift
+os: osx
+install: swift package resolve
+script: swift test
