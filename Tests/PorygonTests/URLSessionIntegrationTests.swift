@@ -56,6 +56,6 @@ final class URLSessionIntegrationTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testDataTaskRequest", testDataTaskRequest),
+        ("testDataTaskRequest", testDataTaskRequest)
     ]
 }

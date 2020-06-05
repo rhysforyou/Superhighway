@@ -342,11 +342,11 @@ extension URLSession {
 
 // MARK: - Transforming Responses
 
-public extension Endpoint {
+extension Endpoint {
     /// Create a new endpoint which maps the source endpoint's response after parsing it
     ///
     /// - Parameter transform: A closure that transforms a successfully parsed response
-    func map<T>(_ transform: @escaping (Response) -> T) -> Endpoint<T> {
+    public func map<T>(_ transform: @escaping (Response) -> T) -> Endpoint<T> {
         return Endpoint<T>(request: request, expectedStatusCode: expectedStatusCode) {
             [parse] (data, response) -> Result<T, Error> in
             let initialResult = parse(data, response)
@@ -357,7 +357,7 @@ public extension Endpoint {
     /// Create a new endpoint which flat maps the source endpoint's response after parsing it
     ///
     /// - Parameter transform: A closure that transforms a successfully parsed response
-    func flatMap<T>(_ transform: @escaping (Response) -> Result<T, Error>) -> Endpoint<T> {
+    public func flatMap<T>(_ transform: @escaping (Response) -> Result<T, Error>) -> Endpoint<T> {
         return Endpoint<T>(request: request, expectedStatusCode: expectedStatusCode) {
             [parse] (data, response) -> Result<T, Error> in
             let initialResult = parse(data, response)
@@ -372,42 +372,69 @@ public extension Endpoint {
 import Combine
 
 extension URLSession {
-    /// A publisher that delivers the results of loading an endpoint.
     public final class EndpointPublisher<Response>: Combine.Publisher {
         public typealias Output = Response
         public typealias Failure = Error
 
-        private let upstream: AnyPublisher<Response, Error>
+        private let endpoint: Endpoint<Response>
+        private let session: URLSession
 
         public init(endpoint: Endpoint<Response>, session: URLSession = .shared) {
-            self.upstream = session.dataTaskPublisher(for: endpoint.request)
-                .tryMap { data, response -> Response in
-                    guard let httpResponse = response as? HTTPURLResponse else {
-                        throw UnknownError()
-                    }
-
-                    guard endpoint.expectedStatusCode(httpResponse.statusCode) else {
-                        throw WrongStatusCodeError(
-                            statusCode: httpResponse.statusCode,
-                            response: httpResponse
-                        )
-                    }
-
-                    return try endpoint.parse(data, httpResponse).get()
-                }
-                .eraseToAnyPublisher()
+            self.endpoint = endpoint
+            self.session = session
         }
 
         public func receive<S>(subscriber: S)
         where S: Subscriber, Failure == S.Failure, Output == S.Input {
-            upstream.receive(subscriber: subscriber)
+            let subscription = Subscription(
+                subscriber: subscriber, endpoint: endpoint, session: session)
+            subscriber.receive(subscription: subscription)
+        }
+
+        private final class Subscription<Response, Subscriber: Combine.Subscriber>: Combine
+                .Subscription
+        where Subscriber.Input == Response, Subscriber.Failure == Failure {
+            private var subscriber: Subscriber?
+            private var endpoint: Endpoint<Response>
+            private var session: URLSession
+
+            private var task: URLSessionDataTask?
+
+            init(subscriber: Subscriber, endpoint: Endpoint<Response>, session: URLSession) {
+                self.subscriber = subscriber
+                self.endpoint = endpoint
+                self.session = session
+            }
+
+            func request(_ demand: Subscribers.Demand) {
+                guard demand > 0 else { return }
+
+                let task = session.endpointTask(endpoint) { [subscriber] result in
+                    switch result {
+                    case .success(let response):
+                        _ = subscriber?.receive(response)
+                        subscriber?.receive(completion: .finished)
+                    case .failure(let error):
+                        subscriber?.receive(completion: .failure(error))
+                    }
+                }
+
+                self.task = task
+
+                task.resume()
+            }
+
+            func cancel() {
+                task?.cancel()
+                subscriber = nil
+                task = nil
+            }
         }
     }
 
-    public func endpointPublisher<Response>(_ endpoint: Endpoint<Response>)
-        -> EndpointPublisher<Response>
-    {
+    func endpointPublisher<Response>(_ endpoint: Endpoint<Response>) -> EndpointPublisher<Response> {
         return EndpointPublisher(endpoint: endpoint, session: self)
     }
 }
+
 #endif
