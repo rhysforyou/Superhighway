@@ -7,11 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v0.2.0] - 2020-06-05
+## [v0.3.0] - 2020-06-05
 
 - Overhauled Combine integration. `EndpointPublisher` now vends its own `Subscription` type, instead of simply acting as a wrapper for an upstream data task publisher.
 
-## [v0.1.0] - 2020-01-27
+## [v0.2.0] - 2020-01-27
 
 ### Added
 
@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release of the library
 
-[unreleased]: https://github.com/rhysforyou/Porygon/compare/0.2.0...HEAD
+[unreleased]: https://github.com/rhysforyou/Porygon/compare/0.3.0...HEAD
+[v0.3.0]: https://github.com/rhysforyou/Porygon/compare/0.2.0...0.3.0
 [v0.2.0]: https://github.com/rhysforyou/Porygon/compare/0.1.0...0.2.0
 [v0.1.0]: https://github.com/rhysforyou/Porygon/releases/tag/0.1.0
