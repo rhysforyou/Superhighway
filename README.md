@@ -43,7 +43,7 @@ import PackageDescription
 let package = Package(
     // ...
     dependencies: [
-        .package(url: "https://github.com/rhysforyou/Superhighway.git", "0.3.0"..<"0.4.0")
+        .package(url: "https://github.com/rhysforyou/Superhighway.git", "0.4.0"..<"0.5.0")
     ],
     targets: [
         .target(
