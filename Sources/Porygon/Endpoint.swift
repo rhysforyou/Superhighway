@@ -25,19 +25,19 @@ public enum ContentType {
 
 /// The HTTP Method
 public enum HTTPMethod: String {
-    /// `GET`
+    /// HTTP `GET`
     case get = "GET"
 
-    /// `POST`
+    /// HTTP `POST`
     case post = "POST"
 
-    /// `PUT`
+    /// HTTP `PUT`
     case put = "PUT"
 
-    /// `PATCH`
+    /// HTTP `PATCH`
     case patch = "PATCH"
 
-    /// `DELETE`
+    /// HTTP `DELETE`
     case delete = "DELETE"
 }
 
@@ -45,13 +45,15 @@ public func expected200to300(_ code: Int) -> Bool {
     return (200..<300).contains(code)
 }
 
-/// This describes an endpoint returning `A` values. It contains both a `URLRequest` and a way to parse the response.
+/// An `Endpoint` couples a HTTP request together with the logic required to validate and parse its response into a useful value.
+///
+/// At its most basic, an `Endpoint` consists of a `URLRequest`, responsible for fetching some data, an `expectedStatusCode` block, which validates the response's status code, and a `parse` block, which takes the `Data` and `URLResponse` from our request and turns it into something useful. `Endpoint` also offers a constructor which creates a `URLSession` from a HTTP method, URL, and so on to simplify the creation of `Endpoint` instances.
 public struct Endpoint<Response> {
 
-    /// The request for this endpoint
+    /// The underlying `URLRequest` for this endpoint
     let request: URLRequest
 
-    /// This is used to (try to) parse a response into an `A`.
+    /// Closure responsible for translating a URL response into the endpoint's `Response` type
     let parse: (Data?, URLResponse?) -> Result<Response, Error>
 
     /// This is used to check the status code of a response.
@@ -214,7 +216,7 @@ extension Endpoint where Response == () {
 
 // MARK: - where A: Decodable
 extension Endpoint where Response: Decodable {
-    /// Creates a new endpoint.
+    /// Creates a new endpoint represneding a value to be decoded from a JSON response.
     ///
     /// - Parameters:
     ///   - method: the HTTP method
@@ -223,7 +225,7 @@ extension Endpoint where Response: Decodable {
     ///   - headers: additional headers for the request
     ///   - expectedStatusCode: the status code that's expected. If this returns false for a given status code, parsing fails.
     ///   - query: query parameters to append to the url
-    ///   - decoder: the decoder that's used for decoding `A`s.
+    ///   - decoder: the decoder that's used for decoding the response body
     public init(
         json method: HTTPMethod,
         url: URL,
@@ -316,12 +318,12 @@ extension URLSession {
     /// Loads an endpoint by creating (and directly resuming) a data task.
     ///
     /// - Parameters:
-    ///   - endpoint: The endpoint.
-    ///   - onComplete: The completion handler.
-    /// - Returns: The data task.
-    public func endpointTask<A>(
-        _ endpoint: Endpoint<A>,
-        onComplete: @escaping (Result<A, Error>) -> Void
+    ///   - endpoint: The endpoint
+    ///   - onComplete: The completion handler
+    /// - Returns: The data task
+    public func endpointTask<Response>(
+        _ endpoint: Endpoint<Response>,
+        onComplete: @escaping (Result<Response, Error>) -> Void
     ) -> URLSessionDataTask {
         let r = endpoint.request
         let task = dataTask(
@@ -388,6 +390,9 @@ extension Endpoint {
 import Combine
 
 extension URLSession {
+    /// A publisher that delivers the results of requesting and parsing an endpoint.
+    ///
+    /// Upon being subscribed to, this publisher will perform its underlying HTTP request and send the parsed response to its subscriber.
     public final class EndpointPublisher<Response>: Combine.Publisher {
         public typealias Output = Response
         public typealias Failure = Error
@@ -448,6 +453,10 @@ extension URLSession {
         }
     }
 
+    /// Creates a Combine `Publisher` representing the `Endpoint`
+    ///
+    /// - Parameter endpoint: the endpoint from which to creaste a publisher
+    /// - Returns: an endpoint publisher
     func endpointPublisher<Response>(_ endpoint: Endpoint<Response>) -> EndpointPublisher<Response> {
         return EndpointPublisher(endpoint: endpoint, session: self)
     }
