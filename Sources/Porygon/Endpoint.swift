@@ -185,16 +185,17 @@ extension Endpoint where Response == () {
     ///   - headers: additional headers for the request
     ///   - expectedStatusCode: the status code that's expected. If this returns false for a given status code, parsing fails.
     ///   - query: query parameters to append to the url
-    public init<B: Encodable>(
+    public init<Request: Encodable>(
         json method: HTTPMethod,
         url: URL,
         accept: ContentType? = .json,
-        body: B,
+        body: Request,
         headers: [String: String] = [:],
         expectedStatusCode: @escaping (Int) -> Bool = expected200to300,
-        query: [String: String] = [:]
+        query: [String: String] = [:],
+        encoder: JSONEncoder = JSONEncoder()
     ) {
-        let body = try! JSONEncoder().encode(body)
+        let body = try! encoder.encode(body)
         self.init(
             method,
             url: url,
@@ -248,34 +249,36 @@ extension Endpoint where Response: Decodable {
         }
     }
 
-    /// Creates a new endpoint.
+    /// Creates a new endpoint represneding a value to be decoded from a JSON responsem.
     ///
     /// - Parameters:
     ///   - method: the HTTP method
     ///   - url: the endpoint's URL
     ///   - accept: the content type for the `Accept` header
-    ///   - body: the body of the request. This is encoded using a default encoder.
+    ///   - body: the body of the request
     ///   - headers: additional headers for the request
-    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given status code, parsing fails.
+    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given status code, parsing fails
     ///   - query: query parameters to append to the url
-    ///   - decoder: the decoder that's used for decoding `A`s.
-    public init<B: Encodable>(
+    ///   - decoder: the decoder that's used for decoding the response body
+    ///   - encoder: The encoder used to encode the request body
+    public init<Request: Encodable>(
         json method: HTTPMethod,
         url: URL,
         accept: ContentType = .json,
-        body: B? = nil,
+        body: Request? = nil,
         headers: [String: String] = [:],
         expectedStatusCode: @escaping (Int) -> Bool = expected200to300,
         query: [String: String] = [:],
-        decoder: JSONDecoder = JSONDecoder()
+        decoder: JSONDecoder = JSONDecoder(),
+        encoder: JSONEncoder = JSONEncoder()
     ) {
-        let b = body.map { try! JSONEncoder().encode($0) }
+        let bodyData = body.map { try! encoder.encode($0) }
         self.init(
             method,
             url: url,
             accept: accept,
             contentType: .json,
-            body: b,
+            body: bodyData,
             headers: headers,
             expectedStatusCode: expectedStatusCode,
             query: query

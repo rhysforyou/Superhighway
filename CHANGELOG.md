@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Support for arbitrary MIME types for `Accept` and `Content-Type` headers using `ContentType.custom`
+- Support using a custom `JSONEncoder` when making requests with a JSON body
 
 ## [v0.3.0] - 2020-06-05
 
