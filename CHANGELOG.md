@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Support for arbitrary MIME types for `Accept` and `Content-Type` headers using `ContentType.custom`
+
 ## [v0.3.0] - 2020-06-05
 
 - Overhauled Combine integration. `EndpointPublisher` now vends its own `Subscription` type, instead of simply acting as a wrapper for an upstream data task publisher.

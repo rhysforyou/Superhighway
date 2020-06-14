@@ -5,9 +5,22 @@ import FoundationNetworking
 #endif
 
 /// Content type used in `Accept` and `Content-Type` HTTP headers
-public enum ContentType: String {
-    case json = "application/json"
-    case xml = "application/xml"
+public enum ContentType {
+    case text, json, xml
+    case custom(String)
+
+    var mimeType: String {
+        switch self {
+        case .text:
+            return "text/plain"
+        case .json:
+            return "application/json"
+        case .xml:
+            return "application/xml"
+        case .custom(let mimeType):
+            return mimeType
+        }
+    }
 }
 
 /// The HTTP Method
@@ -82,10 +95,10 @@ public struct Endpoint<Response> {
         }
         var request = URLRequest(url: requestURL)
         if let accept = accept {
-            request.setValue(accept.rawValue, forHTTPHeaderField: "Accept")
+            request.setValue(accept.mimeType, forHTTPHeaderField: "Accept")
         }
         if let contentType = contentType {
-            request.setValue(contentType.rawValue, forHTTPHeaderField: "Content-Type")
+            request.setValue(contentType.mimeType, forHTTPHeaderField: "Content-Type")
         }
         for (key, value) in headers {
             request.setValue(value, forHTTPHeaderField: key)
