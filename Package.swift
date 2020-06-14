@@ -3,19 +3,19 @@
 import PackageDescription
 
 let package = Package(
-    name: "Porygon",
+    name: "Superhighway",
     platforms: [.iOS("13.0"), .watchOS("6.0"), .tvOS("13.0"), .macOS("10.15")],
     products: [
         .library(
-            name: "Porygon",
-            targets: ["Porygon"]),
+            name: "Superhighway",
+            targets: ["Superhighway"]),
     ],
     targets: [
         .target(
-            name: "Porygon",
+            name: "Superhighway",
             dependencies: []),
         .testTarget(
-            name: "PorygonTests",
-            dependencies: ["Porygon"]),
+            name: "SuperhighwayTests",
+            dependencies: ["Superhighway"]),
     ]
 )

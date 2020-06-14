@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Project renamed from Porygon to Superhighway
 - Support for arbitrary MIME types for `Accept` and `Content-Type` headers using `ContentType.custom`
 - Support using a custom `JSONEncoder` when making requests with a JSON body
 
@@ -30,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release of the library
 
-[unreleased]: https://github.com/rhysforyou/Porygon/compare/0.3.0...HEAD
-[v0.3.0]: https://github.com/rhysforyou/Porygon/compare/0.2.0...0.3.0
-[v0.2.0]: https://github.com/rhysforyou/Porygon/compare/0.1.0...0.2.0
-[v0.1.0]: https://github.com/rhysforyou/Porygon/releases/tag/0.1.0
+[unreleased]: https://github.com/rhysforyou/Superhighway/compare/0.3.0...HEAD
+[v0.3.0]: https://github.com/rhysforyou/Superhighway/compare/0.2.0...0.3.0
+[v0.2.0]: https://github.com/rhysforyou/Superhighway/compare/0.1.0...0.2.0
+[v0.1.0]: https://github.com/rhysforyou/Superhighway/releases/tag/0.1.0

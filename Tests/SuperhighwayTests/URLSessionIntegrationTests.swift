@@ -1,7 +1,7 @@
 import Foundation
 import XCTest
 
-@testable import Porygon
+@testable import Superhighway
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking

@@ -7,7 +7,7 @@ import Combine
 import FoundationNetworking
 #endif
 
-@testable import Porygon
+@testable import Superhighway
 
 final class CombineIntegrationTasks: XCTestCase {
     override func setUp() {
