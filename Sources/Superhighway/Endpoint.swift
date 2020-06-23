@@ -457,7 +457,7 @@ extension URLSession {
     ///
     /// - Parameter endpoint: the endpoint from which to creaste a publisher
     /// - Returns: an endpoint publisher
-    func endpointPublisher<Response>(_ endpoint: Endpoint<Response>) -> EndpointPublisher<Response> {
+    public func endpointPublisher<Response>(_ endpoint: Endpoint<Response>) -> EndpointPublisher<Response> {
         return EndpointPublisher(endpoint: endpoint, session: self)
     }
 }
