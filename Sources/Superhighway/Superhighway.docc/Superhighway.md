@@ -27,29 +27,6 @@ subscriber = URLSesion.shared.endpointPublisher(endpoint)
 
 If the subscriber is cancelled or deallocated before it finishes, any networking operations will be halted.
 
-## Installing
-
-The recommended way to use Superhighway is through the Swift Package manager. For Xcode projects, simply add this repository to the project's Swift packages list. For projects using a `Package.swift` file, add the following:
-
-```swift
-// swift-tools-version:4.0
-import PackageDescription
-
-let package = Package(
-    // ...
-    dependencies: [
-        .package(url: "https://github.com/rhysforyou/Superhighway.git", "0.4.0"..<"0.5.0")
-    ],
-    targets: [
-        .target(
-            name: "MyTarget",
-            dependencies: ["Superhighway"])
-    ]
-)
-```
-
-Other package managers such as CocoaPods and Carthage are officially unsupported, but this entire library is encapsulated in a single `Endpoint.swift` file which can be copied into an existing project and used as-is.
-
 ## Topics
 
 ### Essentials
