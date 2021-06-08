@@ -1,10 +1,10 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.5
 
 import PackageDescription
 
 let package = Package(
     name: "Superhighway",
-    platforms: [.iOS("13.0"), .watchOS("6.0"), .tvOS("13.0"), .macOS("10.15")],
+    platforms: [.iOS(.v13), .watchOS(.v6), .tvOS(.v13), .macOS(.v10_15)],
     products: [
         .library(
             name: "Superhighway",
@@ -17,5 +17,6 @@ let package = Package(
         .testTarget(
             name: "SuperhighwayTests",
             dependencies: ["Superhighway"]),
-    ]
+    ],
+    swiftLanguageVersions: [.v5]
 )
