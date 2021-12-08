@@ -54,7 +54,7 @@ extension URLSession {
         Response, URLResponse
     ) {
         let request = endpoint.request
-        let (data, urlResponse) = try await data(for: request)
+        let (data, urlResponse) = try await data(for: request, delegate: nil)
 
         guard let httpResponse = urlResponse as? HTTPURLResponse else {
             throw UnknownError()
