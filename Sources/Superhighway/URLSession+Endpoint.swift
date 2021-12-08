@@ -18,9 +18,9 @@ extension URLSession {
         _ endpoint: Endpoint<Response>,
         onComplete: @escaping (Result<Response, Error>) -> Void
     ) -> URLSessionDataTask {
-        let r = endpoint.request
+        let request = endpoint.request
         let task = dataTask(
-            with: r,
+            with: request,
             completionHandler: { data, response, error in
                 if let error = error {
                     onComplete(.failure(error))
@@ -44,10 +44,27 @@ extension URLSession {
                     return
                 }
 
-                onComplete(endpoint.parse(data, response))
+                onComplete(Result.init { try endpoint.parse(data, response) })
             }
         )
         return task
+    }
+
+    public func data<Response>(for endpoint: Endpoint<Response>) async throws -> (Response, URLResponse) {
+        let request = endpoint.request
+        let (data, urlResponse) = try await data(for: request)
+
+        guard let httpResponse = urlResponse as? HTTPURLResponse else {
+            throw UnknownError()
+        }
+
+        guard endpoint.expectedStatusCode(httpResponse.statusCode) else {
+            throw WrongStatusCodeError(statusCode: httpResponse.statusCode, response: httpResponse)
+        }
+
+        let response = try endpoint.parse(data, urlResponse)
+
+        return (response, urlResponse)
     }
 }
 

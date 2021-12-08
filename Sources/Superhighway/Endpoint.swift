@@ -54,7 +54,7 @@ public struct Endpoint<Response> {
     let request: URLRequest
 
     /// Closure responsible for translating a URL response into the endpoint's `Response` type
-    let parse: (Data?, URLResponse?) -> Result<Response, Error>
+    let parse: (Data?, URLResponse?) throws -> Response
 
     /// This is used to check the status code of a response.
     let expectedStatusCode: (Int) -> Bool
@@ -82,7 +82,7 @@ public struct Endpoint<Response> {
         expectedStatusCode: @escaping (Int) -> Bool = expected200to300,
         timeOutInterval: TimeInterval = 10,
         query: [String: String] = [:],
-        parse: @escaping (Data?, URLResponse?) -> Result<Response, Error>
+        parse: @escaping (Data?, URLResponse?) throws -> Response
     ) {
         var requestURL: URL
         if query.isEmpty {
@@ -125,7 +125,7 @@ public struct Endpoint<Response> {
     public init(
         request: URLRequest,
         expectedStatusCode: @escaping (Int) -> Bool = expected200to300,
-        parse: @escaping (Data?, URLResponse?) -> Result<Response, Error>
+        parse: @escaping (Data?, URLResponse?) throws -> Response
     ) {
         self.request = request
         self.expectedStatusCode = expectedStatusCode
@@ -171,9 +171,7 @@ extension Endpoint where Response == () {
             headers: headers,
             expectedStatusCode: expectedStatusCode,
             query: query,
-            parse: { _, _ in
-                .success(())
-            }
+            parse: { _, _ in () }
         )
     }
 
@@ -207,9 +205,7 @@ extension Endpoint where Response == () {
             headers: headers,
             expectedStatusCode: expectedStatusCode,
             query: query,
-            parse: { _, _ in
-                .success(())
-            }
+            parse: { _, _ in () }
         )
     }
 }
@@ -244,10 +240,8 @@ extension Endpoint where Response: Decodable {
             expectedStatusCode: expectedStatusCode,
             query: query
         ) { data, _ in
-            return Result {
-                guard let dat = data else { throw NoDataError() }
-                return try decoder.decode(Response.self, from: dat)
-            }
+            guard let dat = data else { throw NoDataError() }
+            return try decoder.decode(Response.self, from: dat)
         }
     }
 
@@ -285,10 +279,8 @@ extension Endpoint where Response: Decodable {
             expectedStatusCode: expectedStatusCode,
             query: query
         ) { data, _ in
-            return Result {
-                guard let dat = data else { throw NoDataError() }
-                return try decoder.decode(Response.self, from: dat)
-            }
+            guard let dat = data else { throw NoDataError() }
+            return try decoder.decode(Response.self, from: dat)
         }
     }
 }
@@ -313,30 +305,3 @@ public struct WrongStatusCodeError: Error {
         self.response = response
     }
 }
-
-// MARK: - Transforming Responses
-
-extension Endpoint {
-    /// Create a new endpoint which maps the source endpoint's response after parsing it
-    ///
-    /// - Parameter transform: A closure that transforms a successfully parsed response
-    public func map<T>(_ transform: @escaping (Response) -> T) -> Endpoint<T> {
-        return Endpoint<T>(request: request, expectedStatusCode: expectedStatusCode) {
-            [parse] (data, response) -> Result<T, Error> in
-            let initialResult = parse(data, response)
-            return initialResult.map(transform)
-        }
-    }
-
-    /// Create a new endpoint which flat maps the source endpoint's response after parsing it
-    ///
-    /// - Parameter transform: A closure that transforms a successfully parsed response
-    public func flatMap<T>(_ transform: @escaping (Response) -> Result<T, Error>) -> Endpoint<T> {
-        return Endpoint<T>(request: request, expectedStatusCode: expectedStatusCode) {
-            [parse] (data, response) -> Result<T, Error> in
-            let initialResult = parse(data, response)
-            return initialResult.flatMap(transform)
-        }
-    }
-}
-

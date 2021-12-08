@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.5.0] - 2021-12-08
+
+- Endpoints now use a throwing closure for their `parse` property, instead of one which returns a `Result`
+- Added an async `URLSession.data(for:)` method which takes an endpoint and returns a tuple of `(Response, URLResponse)`
+- Response mapping methods have been removed  
+
 ## [v0.4.0] - 2020-06-15
 
 - Project renamed from Porygon to Superhighway

@@ -5,7 +5,7 @@
 ![Supports macOS, iOS, tvOS, watchOS, and Linux](https://img.shields.io/badge/platform-macOS%20|%20iOS%20|%20tvOS%20|%20watchOS%20|%20Linux-blue?style=flat-square)
 [![Licensed under the Unlicense](https://img.shields.io/github/license/rhysforyou/Superhighway?color=blue&style=flat-square)](LICENSE)
 
-Superhighway is a networking library heavily inspired by [tiny-networking](https://github.com/objcio/tiny-networking), but designed primarily for use with Combine. It defines an `Endpoint` type which encapsulates the relationship between a `URLRequest` and the `Decodable` entity it represents.
+Superhighway is a networking library heavily inspired by [tiny-networking](https://github.com/objcio/tiny-networking). It defines an `Endpoint` type which encapsulates the relationship between a `URLRequest` and the `Decodable` entity it represents.
 
 ## A Simple Example
 
@@ -15,19 +15,22 @@ struct Repository: Decodable {
     let name: String
 }
 
-func repository(author: String, name: String) -> Endpoint<Repository> {
+func getRepository(author: String, name: String) -> Endpoint<Repository> {
     return Endpoint(json: .get, url: URL(string: "https://api.github.com/repos/\(author)/\(name)")!)
 }
 
-let endpoint = repository(author: "rhysforyou", name: "Superhighway")
+let endpoint = getRepository(author: "rhysforyou", name: "Superhighway")
 ```
 
-This simply gives us the description of an endpoint, to actually load it, we need to subscribe to its publisher:
+This simply gives us the description of an endpoint, to actually load it, we can pass it to a URLSession:
 
 ```swift
-subscriber = URLSesion.shared.endpointPublisher(endpoint)
-    .sink(receiveCompletion: { print("Completed: \($0)") },
-          receiveValue: { print("Value: \($0)") })
+do {
+    let (repository, _) = try await URLSession.default.data(for: endpoint)
+    print("Repository: \(repository)")
+} catch {
+    print("Error: \(error)")
+}
 ```
 
 If the subscriber is cancelled or deallocated before it finishes, any networking operations will be halted.
@@ -37,13 +40,13 @@ If the subscriber is cancelled or deallocated before it finishes, any networking
 The recommended way to use Superhighway is through the Swift Package manager. For Xcode projects, simply add this repository to the project's Swift packages list. For projects using a `Package.swift` file, add the following:
 
 ```swift
-// swift-tools-version:4.0
+// swift-tools-version:5.5
 import PackageDescription
 
 let package = Package(
     // ...
     dependencies: [
-        .package(url: "https://github.com/rhysforyou/Superhighway.git", "0.4.0"..<"0.5.0")
+        .package(url: "https://github.com/rhysforyou/Superhighway.git", "0.5.0"..<"0.6.0")
     ],
     targets: [
         .target(
