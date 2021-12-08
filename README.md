@@ -1,6 +1,6 @@
 # Superhighway
 
-[![Travis Build Status](https://img.shields.io/travis/rhysforyou/Superhighway?style=flat-square)](https://travis-ci.org/github/rhysforyou/Superhighway/builds)
+[![Build & Test Swift Package](https://github.com/rhysforyou/Superhighway/actions/workflows/swift-package.yml/badge.svg?branch=main)](https://github.com/rhysforyou/Superhighway/actions/workflows/swift-package.yml)
 ![Swift Package Manager Recommended](https://img.shields.io/badge/SPM-recommended-blue?style=flat-square)
 ![Supports macOS, iOS, tvOS, watchOS, and Linux](https://img.shields.io/badge/platform-macOS%20|%20iOS%20|%20tvOS%20|%20watchOS%20|%20Linux-blue?style=flat-square)
 [![Licensed under the Unlicense](https://img.shields.io/github/license/rhysforyou/Superhighway?color=blue&style=flat-square)](LICENSE)
