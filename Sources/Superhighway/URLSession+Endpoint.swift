@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Rhys Powell on 8/6/21.
 //
@@ -50,7 +50,9 @@ extension URLSession {
         return task
     }
 
-    public func data<Response>(for endpoint: Endpoint<Response>) async throws -> (Response, URLResponse) {
+    public func data<Response>(for endpoint: Endpoint<Response>) async throws -> (
+        Response, URLResponse
+    ) {
         let request = endpoint.request
         let (data, urlResponse) = try await data(for: request)
 
@@ -141,7 +143,9 @@ extension URLSession {
     ///
     /// - Parameter endpoint: the endpoint from which to creaste a publisher
     /// - Returns: an endpoint publisher
-    public func endpointPublisher<Response>(_ endpoint: Endpoint<Response>) -> EndpointPublisher<Response> {
+    public func endpointPublisher<Response>(_ endpoint: Endpoint<Response>) -> EndpointPublisher<
+        Response
+    > {
         return EndpointPublisher(endpoint: endpoint, session: self)
     }
 }
