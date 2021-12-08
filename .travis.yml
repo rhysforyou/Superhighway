@@ -1,5 +1,0 @@
-language: swift
-os: osx
-osx_image: xcode11.5
-install: swift package resolve
-script: swift test
