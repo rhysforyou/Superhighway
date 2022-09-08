@@ -33,7 +33,7 @@ do {
 }
 ```
 
-If the subscriber is cancelled or deallocated before it finishes, any networking operations will be halted.
+If the task is cancelled before it finishes, any networking operations will be halted.
 
 ## Installing
 
