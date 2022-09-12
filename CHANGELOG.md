@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.5.1] - 2022-09-12
+
+- Make `Endpoint`'s `request` property public to simplify unit testing
+
 ## [v0.5.0] - 2021-12-08
 
 - Endpoints now use a throwing closure for their `parse` property, instead of one which returns a `Result`

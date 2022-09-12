@@ -51,7 +51,7 @@ public func expected200to300(_ code: Int) -> Bool {
 public struct Endpoint<Response> {
 
     /// The underlying `URLRequest` for this endpoint
-    let request: URLRequest
+    public let request: URLRequest
 
     /// Closure responsible for translating a URL response into the endpoint's `Response` type
     let parse: (Data?, URLResponse?) throws -> Response
