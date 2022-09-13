@@ -10,22 +10,25 @@ struct Repository: Decodable {
     let name: String
 }
 
-func repository(author: String, name: String) -> Endpoint<Repository> {
+func getRepository(author: String, name: String) -> Endpoint<Repository> {
     return Endpoint(json: .get, url: URL(string: "https://api.github.com/repos/\(author)/\(name)")!)
 }
 
-let endpoint = repository(author: "rhysforyou", name: "Superhighway")
+let endpoint = getRepository(author: "rhysforyou", name: "Superhighway")
 ```
 
-This simply gives us the description of an endpoint, to actually load it, we need to subscribe to its publisher:
+This simply gives us the description of an endpoint, to actually load it, we can pass it to a URLSession:
 
 ```swift
-subscriber = URLSesion.shared.endpointPublisher(endpoint)
-    .sink(receiveCompletion: { print("Completed: \($0)") },
-          receiveValue: { print("Value: \($0)") })
+do {
+    let (repository, _) = try await URLSession.default.data(for: endpoint)
+    print("Repository: \(repository)")
+} catch {
+    print("Error: \(error)")
+}
 ```
 
-If the subscriber is cancelled or deallocated before it finishes, any networking operations will be halted.
+If the task is cancelled before it finishes, any networking operations will be halted.
 
 ## Topics
 

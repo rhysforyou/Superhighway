@@ -23,7 +23,7 @@ public enum ContentType {
     }
 }
 
-/// The HTTP Method
+/// A HTTP Method
 public enum HTTPMethod: String {
     /// HTTP `GET`
     case get = "GET"
@@ -41,6 +41,7 @@ public enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
+/// Validates that a status code is in the 2XX range, indicating success
 public func expected200to300(_ code: Int) -> Bool {
     return (200..<300).contains(code)
 }
@@ -212,7 +213,7 @@ extension Endpoint where Response == () {
 
 // MARK: - where A: Decodable
 extension Endpoint where Response: Decodable {
-    /// Creates a new endpoint represneding a value to be decoded from a JSON response.
+    /// Creates a new endpoint representing a value to be decoded from a JSON response.
     ///
     /// - Parameters:
     ///   - method: the HTTP method
@@ -245,7 +246,7 @@ extension Endpoint where Response: Decodable {
         }
     }
 
-    /// Creates a new endpoint represneding a value to be decoded from a JSON responsem.
+    /// Creates a new endpoint representing a value to be decoded from a JSON response.
     ///
     /// - Parameters:
     ///   - method: the HTTP method
