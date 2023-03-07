@@ -1,16 +1,16 @@
 import Foundation
 
 struct Person: Codable, Equatable {
-    var name: String
+  var name: String
 }
 
 let exampleJSON = """
-    [
-        {
-            "name": "Alice"
-        },
-        {
-            "name": "Bob"
-        }
-    ]
-    """
+[
+    {
+        "name": "Alice"
+    },
+    {
+        "name": "Bob"
+    }
+]
+"""
