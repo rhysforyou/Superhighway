@@ -16,7 +16,11 @@ struct Repository: Decodable {
 }
 
 func getRepository(author: String, name: String) -> Endpoint<Repository> {
-    return Endpoint(json: .get, url: URL(string: "https://api.github.com/repos/\(author)/\(name)")!)
+  return Endpoint(
+    decoding: Repository.self, 
+    method: .get, 
+    url: URL(string: "https://api.github.com/repos/\(author)/\(name)")!
+  )
 }
 
 let endpoint = getRepository(author: "rhysforyou", name: "Superhighway")
@@ -26,7 +30,7 @@ This simply gives us the description of an endpoint, to actually load it, we can
 
 ```swift
 do {
-    let (repository, _) = try await URLSession.default.data(for: endpoint)
+    let (repository, _) = try await URLSession.default.response(for: endpoint)
     print("Repository: \(repository)")
 } catch {
     print("Error: \(error)")

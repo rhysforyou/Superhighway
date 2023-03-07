@@ -42,7 +42,7 @@ final class ConcurrencyIntegrationTests: XCTestCase {
 
         let endpoint = Endpoint(decoding: [Person].self, method: .get, url: url)
 
-        let (person, _) = try await URLSession.shared.data(for: endpoint)
+        let (person, _) = try await URLSession.shared.response(for: endpoint)
         XCTAssertEqual([Person(name: "Alice"), Person(name: "Bob")], person)
     }
 }

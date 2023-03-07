@@ -46,9 +46,31 @@ public func expected200to300(_ code: Int) -> Bool {
     return (200..<300).contains(code)
 }
 
-/// An `Endpoint` couples a HTTP request together with the logic required to validate and parse its response into a useful value.
+/// Couples a HTTP request together with the logic required to validate and parse its response into a useful
+/// value.
 ///
-/// At its most basic, an `Endpoint` consists of a `URLRequest`, responsible for fetching some data, an `expectedStatusCode` block, which validates the response's status code, and a `parse` block, which takes the `Data` and `URLResponse` from our request and turns it into something useful. `Endpoint` also offers a constructor which creates a `URLSession` from a HTTP method, URL, and so on to simplify the creation of `Endpoint` instances.
+/// An endpoint describes how to construct a HTTP request, and how to turn the corresponding HTTP
+/// response into a useful value. It also provides the ability to validate a HTTP response.
+///
+/// For the common use case of fetching some JSON from an API and decoding it into some `Decodable`
+/// type, it provides convenience methods that do a lot of the heavy lifting for you:
+///
+/// ```swift
+/// struct Person: Decodable {
+///   let id: UUID
+///   let givenName: String
+///   let familyName: String
+/// }
+///
+///
+/// let endpoint = Endpoint(
+///   decoding: [Person].self,
+///   method: .get,
+///   url: URL(string: "https://example.com/api/people")!
+/// )
+///
+/// let (people, _) = try await URLSession.shared.response(for: endpoint)
+/// ```
 public struct Endpoint<Response> {
 
     /// The underlying `URLRequest` for this endpoint
@@ -69,7 +91,8 @@ public struct Endpoint<Response> {
     ///   - contentType: the content type for the `Content-Type` header
     ///   - body: the body of the request.
     ///   - headers: additional headers for the request
-    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given status code, parsing fails.
+    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given
+    ///     status code, parsing fails.
     ///   - timeOutInterval: the timeout interval for his request
     ///   - query: query parameters to append to the url
     ///   - parse: this converts a response into an `A`.
@@ -121,7 +144,8 @@ public struct Endpoint<Response> {
     ///
     /// - Parameters:
     ///   - request: the URL request
-    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given status code, parsing fails.
+    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given
+    ///     status code, parsing fails.
     ///   - parse: this converts a response into an `A`.
     public init(
         request: URLRequest,
@@ -155,7 +179,8 @@ extension Endpoint where Response == () {
     ///   - url: the endpoint's URL
     ///   - accept: the content type for the `Accept` header
     ///   - headers: additional headers for the request
-    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given status code, parsing fails.
+    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given
+    ///     status code, parsing fails.
     ///   - query: query parameters to append to the url
     public init(
         _ method: HTTPMethod,
@@ -184,7 +209,8 @@ extension Endpoint where Response == () {
     ///   - accept: the content type for the `Accept` header
     ///   - body: the body of the request. This gets encoded using a default `JSONEncoder` instance.
     ///   - headers: additional headers for the request
-    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given status code, parsing fails.
+    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given
+    ///     status code, parsing fails.
     ///   - query: query parameters to append to the url
     @available(*, deprecated, renamed: "init(decoding:method:url:accept:body:headers:expectedStatusCode:query:encoder:)")
     public init<Request: Encodable>(
@@ -220,7 +246,8 @@ extension Endpoint where Response == () {
     ///   - accept: the content type for the `Accept` header
     ///   - body: the body of the request. This gets encoded using a default `JSONEncoder` instance.
     ///   - headers: additional headers for the request
-    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given status code, parsing fails.
+    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given
+    ///     status code, parsing fails.
     ///   - query: query parameters to append to the url
     public init<Request: Encodable>(
         decoding responseType: Response.Type,
@@ -257,7 +284,8 @@ extension Endpoint where Response: Decodable {
     ///   - url: the endpoint's URL
     ///   - accept: the content type for the `Accept` header
     ///   - headers: additional headers for the request
-    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given status code, parsing fails.
+    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given
+    ///     status code, parsing fails.
     ///   - query: query parameters to append to the url
     ///   - decoder: the decoder that's used for decoding the response body
     @available(*, deprecated, renamed: "init(decoding:method:url:accept:headers:expectedStatusCode:query:decoder:)")
@@ -292,7 +320,8 @@ extension Endpoint where Response: Decodable {
     ///   - url: the endpoint's URL
     ///   - accept: the content type for the `Accept` header
     ///   - headers: additional headers for the request
-    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given status code, parsing fails.
+    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given
+    ///     status code, parsing fails.
     ///   - query: query parameters to append to the url
     ///   - decoder: the decoder that's used for decoding the response body
     public init(
@@ -327,7 +356,8 @@ extension Endpoint where Response: Decodable {
     ///   - accept: the content type for the `Accept` header
     ///   - body: the body of the request
     ///   - headers: additional headers for the request
-    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given status code, parsing fails
+    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given
+    ///     status code, parsing fails
     ///   - query: query parameters to append to the url
     ///   - decoder: the decoder that's used for decoding the response body
     ///   - encoder: The encoder used to encode the request body
@@ -368,7 +398,8 @@ extension Endpoint where Response: Decodable {
     ///   - accept: the content type for the `Accept` header
     ///   - body: the body of the request
     ///   - headers: additional headers for the request
-    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given status code, parsing fails
+    ///   - expectedStatusCode: the status code that's expected. If this returns false for a given
+    ///     status code, parsing fails
     ///   - query: query parameters to append to the url
     ///   - decoder: the decoder that's used for decoding the response body
     ///   - encoder: The encoder used to encode the request body

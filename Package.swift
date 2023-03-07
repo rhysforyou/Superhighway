@@ -24,6 +24,6 @@ var package = Package(
 #if swift(>=5.6)
 // Add the documentation compiler plugin if possible
 package.dependencies.append(
-    .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
+    .package(url: "https://github.com/apple/swift-docc-plugin", branch: "main")
 )
 #endif
