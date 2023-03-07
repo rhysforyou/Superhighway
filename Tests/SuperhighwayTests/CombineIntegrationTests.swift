@@ -39,7 +39,7 @@ final class CombineIntegrationTasks: XCTestCase {
             data: exampleJSON.data(using: .utf8)!
         )
 
-        let endpoint = Endpoint<[Person]>(json: .get, url: url)
+        let endpoint = Endpoint(decoding: [Person].self, method: .get, url: url)
         let expectation = self.expectation(description: "Stubbed network call")
 
         subscriber = URLSession.shared.endpointPublisher(endpoint).sink(

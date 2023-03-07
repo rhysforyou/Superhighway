@@ -40,7 +40,7 @@ final class ConcurrencyIntegrationTests: XCTestCase {
             data: exampleJSON.data(using: .utf8)!
         )
 
-        let endpoint = Endpoint<[Person]>(json: .get, url: url)
+        let endpoint = Endpoint(decoding: [Person].self, method: .get, url: url)
 
         let (person, _) = try await URLSession.shared.data(for: endpoint)
         XCTAssertEqual([Person(name: "Alice"), Person(name: "Bob")], person)
