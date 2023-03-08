@@ -54,8 +54,4 @@ final class URLSessionIntegrationTests: XCTestCase {
 
     wait(for: [expectation], timeout: 1)
   }
-
-  static var allTests = [
-    ("testDataTaskRequest", testDataTaskRequest)
-  ]
 }

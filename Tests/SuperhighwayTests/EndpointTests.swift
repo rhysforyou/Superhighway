@@ -31,10 +31,4 @@ final class EndpointTests: XCTestCase {
       endpoint.request.url
     )
   }
-
-  static var allTests = [
-    ("testUrlWithoutParams", testUrlWithoutParams),
-    ("testUrlWithParams", testUrlWithParams),
-    ("testUrlAdditionalParams", testUrlAdditionalParams)
-  ]
 }
