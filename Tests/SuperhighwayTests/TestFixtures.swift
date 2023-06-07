@@ -13,4 +13,4 @@ let exampleJSON = """
         "name": "Bob"
     }
 ]
-"""
+""".data(using: .utf8)!

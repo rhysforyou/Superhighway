@@ -36,7 +36,7 @@ final class CombineIntegrationTasks: XCTestCase {
         httpVersion: nil,
         headerFields: nil
       )!,
-      data: exampleJSON.data(using: .utf8)!
+      data: exampleJSON
     )
 
     let endpoint = Endpoint(decoding: [Person].self, method: .get, url: url)
