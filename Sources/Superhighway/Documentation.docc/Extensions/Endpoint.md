@@ -20,9 +20,3 @@
 ### Wrapping an Existing Request
 
 - ``init(request:expectedStatusCode:parse:)``
-
-### Deprecated
-
-- ``init(json:url:accept:headers:expectedStatusCode:query:decoder:)``
-- ``init(json:url:accept:body:headers:expectedStatusCode:query:decoder:encoder:)``
-- ``init(json:url:accept:body:headers:expectedStatusCode:query:encoder:)``

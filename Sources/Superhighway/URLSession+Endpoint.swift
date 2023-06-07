@@ -45,13 +45,6 @@ public extension URLSession {
     return task
   }
 
-  @available(*, deprecated, renamed: "response(for:)")
-  func data<Response>(for endpoint: Endpoint<Response>) async throws -> (
-    Response, URLResponse
-  ) {
-    return try await response(for: endpoint)
-  }
-
   /// Loads an endpoint by creating (and directly resuming) a data task.
   ///
   /// - Parameter endpoint: The endpoint

@@ -205,42 +205,6 @@ public extension Endpoint where Response == () {
   /// Creates a new endpoint without a parse function.
   ///
   /// - Parameters:
-  ///   - json: the HTTP method
-  ///   - url: the endpoint's URL
-  ///   - accept: the content type for the `Accept` header
-  ///   - body: the body of the request. This gets encoded using a default `JSONEncoder` instance.
-  ///   - headers: additional headers for the request
-  ///   - expectedStatusCode: the status code that's expected. If this returns false for a given
-  ///     status code, parsing fails.
-  ///   - query: query parameters to append to the url
-  @available(*, deprecated, renamed: "init(decoding:method:url:accept:body:headers:expectedStatusCode:query:encoder:)")
-  init(
-    json method: HTTPMethod,
-    url: URL,
-    accept: ContentType? = .json,
-    body: some Encodable,
-    headers: [String: String] = [:],
-    expectedStatusCode: @escaping (Int) -> Bool = expected200to300,
-    query: [String: String] = [:],
-    encoder: JSONEncoder = JSONEncoder()
-  ) {
-    let body = try! encoder.encode(body)
-    self.init(
-      method,
-      url: url,
-      accept: accept,
-      contentType: .json,
-      body: body,
-      headers: headers,
-      expectedStatusCode: expectedStatusCode,
-      query: query,
-      parse: { _, _ in () }
-    )
-  }
-
-  /// Creates a new endpoint without a parse function.
-  ///
-  /// - Parameters:
   ///   - responseType: the type representing the response
   ///   - json: the HTTP method
   ///   - url: the endpoint's URL
@@ -282,41 +246,6 @@ public extension Endpoint where Response: Decodable {
   /// Creates a new endpoint representing a value to be decoded from a JSON response.
   ///
   /// - Parameters:
-  ///   - method: the HTTP method
-  ///   - url: the endpoint's URL
-  ///   - accept: the content type for the `Accept` header
-  ///   - headers: additional headers for the request
-  ///   - expectedStatusCode: the status code that's expected. If this returns false for a given
-  ///     status code, parsing fails.
-  ///   - query: query parameters to append to the url
-  ///   - decoder: the decoder that's used for decoding the response body
-  @available(*, deprecated, renamed: "init(decoding:method:url:accept:headers:expectedStatusCode:query:decoder:)")
-  init(
-    json method: HTTPMethod,
-    url: URL,
-    accept: ContentType = .json,
-    headers: [String: String] = [:],
-    expectedStatusCode: @escaping (Int) -> Bool = expected200to300,
-    query: [String: String] = [:],
-    decoder: JSONDecoder = JSONDecoder()
-  ) {
-    self.init(
-      method,
-      url: url,
-      accept: accept,
-      body: nil,
-      headers: headers,
-      expectedStatusCode: expectedStatusCode,
-      query: query
-    ) { data, _ in
-      guard let dat = data else { throw NoDataError() }
-      return try decoder.decode(Response.self, from: dat)
-    }
-  }
-
-  /// Creates a new endpoint representing a value to be decoded from a JSON response.
-  ///
-  /// - Parameters:
   ///   - responseType: the type representing the response
   ///   - method: the HTTP method
   ///   - url: the endpoint's URL
@@ -341,47 +270,6 @@ public extension Endpoint where Response: Decodable {
       url: url,
       accept: accept,
       body: nil,
-      headers: headers,
-      expectedStatusCode: expectedStatusCode,
-      query: query
-    ) { data, _ in
-      guard let dat = data else { throw NoDataError() }
-      return try decoder.decode(Response.self, from: dat)
-    }
-  }
-
-  /// Creates a new endpoint representing a value to be decoded from a JSON response.
-  ///
-  /// - Parameters:
-  ///   - method: the HTTP method
-  ///   - url: the endpoint's URL
-  ///   - accept: the content type for the `Accept` header
-  ///   - body: the body of the request
-  ///   - headers: additional headers for the request
-  ///   - expectedStatusCode: the status code that's expected. If this returns false for a given
-  ///     status code, parsing fails
-  ///   - query: query parameters to append to the url
-  ///   - decoder: the decoder that's used for decoding the response body
-  ///   - encoder: The encoder used to encode the request body
-  @available(*, deprecated, renamed: "init(decoding:method:url:accept:body:headers:expectedStatusCode:query:decoder:encoder:)")
-  init(
-    json method: HTTPMethod,
-    url: URL,
-    accept: ContentType = .json,
-    body: (some Encodable)? = nil,
-    headers: [String: String] = [:],
-    expectedStatusCode: @escaping (Int) -> Bool = expected200to300,
-    query: [String: String] = [:],
-    decoder: JSONDecoder = JSONDecoder(),
-    encoder: JSONEncoder = JSONEncoder()
-  ) {
-    let bodyData = body.map { try! encoder.encode($0) }
-    self.init(
-      method,
-      url: url,
-      accept: accept,
-      contentType: .json,
-      body: bodyData,
       headers: headers,
       expectedStatusCode: expectedStatusCode,
       query: query
