@@ -99,7 +99,7 @@ public extension URLSession {
       subscriber.receive(subscription: subscription)
     }
 
-    private final class Subscription<Response, Subscriber: Combine.Subscriber>: Combine
+    private final class Subscription<Subscriber: Combine.Subscriber>: Combine
       .Subscription
       where Subscriber.Input == Response, Subscriber.Failure == Failure
     {
