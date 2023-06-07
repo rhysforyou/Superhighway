@@ -5,7 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v1.1.0] - 2023-03-7
+## [v2.0.0] - 2023-06-07
+
+- Formally remove deprecated `Endpoint` initializers:
+    - `Endpoint.init(json:url:accept:headers:expectedStatusCode:query:decoder:)`
+    - `Endpoint.init(json:url:accept:body:headers:expectedStatusCode:query:decoder:encoder:)`
+    - `Endpoint.init(json:url:accept:body:headers:expectedStatusCode:query:encoder:)`
+- Formally remove deprecated `URLSession.data(for:)` method
+
+## [v1.1.0] - 2023-03-07
 
 - Rename `URLSession.data(for:)` to `URLSession.response(for:)`
 - Add new JSON convenience constructors that take the response type as an explicit argument
