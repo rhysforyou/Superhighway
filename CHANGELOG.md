@@ -63,6 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release of the library
 
+[v2.0.1]: https://github.com/rhysforyou/Superhighway/compare/2.0.0...2.0.1
 [v2.0.0]: https://github.com/rhysforyou/Superhighway/compare/1.1.0...2.0.0
 [v1.1.0]: https://github.com/rhysforyou/Superhighway/compare/1.0.0...1.1.0
 [v1.0.0]: https://github.com/rhysforyou/Superhighway/compare/0.5.1...1.0.0
