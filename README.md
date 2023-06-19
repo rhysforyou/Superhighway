@@ -5,6 +5,8 @@
 ![Supports macOS, iOS, tvOS, watchOS, and Linux](https://img.shields.io/badge/platform-macOS%20|%20iOS%20|%20tvOS%20|%20watchOS%20|%20Linux-blue?style=flat-square)
 [![Licensed under the Unlicense](https://img.shields.io/github/license/rhysforyou/Superhighway?color=blue&style=flat-square)](LICENSE)
 
+[Swift Package Index listing](https://swiftpackageindex.com/rhysforyou/Superhighway) • [Documentation](https://swiftpackageindex.com/rhysforyou/Superhighway/main/documentation/superhighway) • [Compatibility](https://swiftpackageindex.com/rhysforyou/Superhighway/builds)
+
 Superhighway is a networking library heavily inspired by [tiny-networking](https://github.com/objcio/tiny-networking). It defines an `Endpoint` type which encapsulates the relationship between a `URLRequest` and the `Decodable` entity it represents.
 
 ## A Simple Example
@@ -17,8 +19,8 @@ struct Repository: Decodable {
 
 func getRepository(author: String, name: String) -> Endpoint<Repository> {
   return Endpoint(
-    decoding: Repository.self, 
-    method: .get, 
+    decoding: Repository.self,
+    method: .get,
     url: URL(string: "https://api.github.com/repos/\(author)/\(name)")!
   )
 }

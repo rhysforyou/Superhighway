@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v2.0.1] - 2023-06-19
 
 - Improve how documentation is rendered on the Swift Package Index
+- Improve README
 
 ## [v2.0.0] - 2023-06-07
 
