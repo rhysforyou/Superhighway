@@ -11,10 +11,21 @@ var package = Package(
       targets: ["Superhighway"]
     )
   ],
+  dependencies: [
+    .package(url: "https://github.com/apple/swift-http-types.git", from: "0.1.0")
+  ],
   targets: [
     .target(
       name: "Superhighway",
       dependencies: []
+    ),
+    .target(
+      name: "HTTPTypesSuperhighway",
+      dependencies: [
+        .product(name: "HTTPTypes", package: "swift-http-types"),
+        .product(name: "HTTPTypesFoundation", package: "swift-http-types"),
+        "Superhighway"
+      ]
     ),
     .testTarget(
       name: "SuperhighwayTests",
